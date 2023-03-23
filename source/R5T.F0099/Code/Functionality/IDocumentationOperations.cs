@@ -1,8 +1,14 @@
 using System;
-using System.Collections.Generic;
-using System.Xml.XPath;
+using System.Linq;
 
 using R5T.T0132;
+
+using R5T.T0162.Extensions;
+using R5T.T0172;
+using R5T.T0173.Extensions;
+
+using R5T.F0099.T000;
+using R5T.F0099.T000.Extensions;
 
 
 namespace R5T.F0099
@@ -10,33 +16,21 @@ namespace R5T.F0099
     [FunctionalityMarker]
     public partial interface IDocumentationOperations : IFunctionalityMarker
     {
-        public Dictionary<string, string> GetDocumentationByMemberIdentityName(
-            string documentationXmlFilePath)
+        private static F001.IDocumentationOperations StringlyTypedOperations => F001.DocumentationOperations.Instance;
+
+
+        public DocumentationByMemberIdentityName GetDocumentationByMemberIdentityName(
+            IDocumentationXmlFilePath documentationXmlFilePath)
         {
-            var output = new Dictionary<string, string>();
+            var documentationByMemberIdentityName = StringlyTypedOperations.GetDocumentationByMemberIdentityName(
+                documentationXmlFilePath.Value);
 
-            var documentationFileExists = Instances.FileSystemOperator.FileExists(documentationXmlFilePath);
-            if (documentationFileExists)
-            {
-                var documentation = Instances.XmlOperator.Load_XDocument(documentationXmlFilePath);
-
-                var membersNode = documentation.XPathSelectElement("//doc/members");
-
-                var membersNodeExists = membersNode is object;
-                if (membersNodeExists)
-                {
-                    var memberNodes = membersNode.XPathSelectElements("member");
-                    foreach (var memberNode in memberNodes)
-                    {
-                        var memberIdentityName = memberNode.Attribute("name").Value;
-                        var documentationForMember = memberNode.FirstNode.ToString();
-
-                        var prettyPrintedDocumentationForMember = DocumentationOperator.Instance.PrettyPrint(documentationForMember);
-
-                        output.Add(memberIdentityName, prettyPrintedDocumentationForMember);
-                    }
-                }
-            }
+            // Create strongly-typed type.
+            var output = documentationByMemberIdentityName
+                .ToDictionary(
+                    x => x.Key.ToIdentityName(),
+                    x => x.Value.ToDescriptionXml())
+                .ToDocumentationByMemberIdentityName();
 
             return output;
         }
