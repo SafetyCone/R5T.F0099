@@ -14,6 +14,6 @@ namespace R5T.F0099.T000
     [DataTypeMarker]
     public class DocumentationByMemberIdentityName
     {
-        public Dictionary<IdentityName, DescriptionXml> Value { get; set; }
+        public Dictionary<IIdentityName, IDescriptionXml> Value { get; set; }
     }
 }

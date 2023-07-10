@@ -12,7 +12,7 @@ namespace R5T.F0099.T000
     public partial interface IDictionaryOperator : IFunctionalityMarker
     {
         public DocumentationByMemberIdentityName ToDocumentationByMemberIdentityName(
-            Dictionary<IdentityName, DescriptionXml> value)
+            Dictionary<IIdentityName, IDescriptionXml> value)
         {
             var output = new DocumentationByMemberIdentityName
             {

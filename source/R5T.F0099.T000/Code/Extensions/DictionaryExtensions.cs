@@ -10,7 +10,7 @@ namespace R5T.F0099.T000.Extensions
     public static class DictionaryExtensions
     {
         public static DocumentationByMemberIdentityName ToDocumentationByMemberIdentityName(
-            this Dictionary<IdentityName, DescriptionXml> value)
+            this Dictionary<IIdentityName, IDescriptionXml> value)
         {
             return Instances.DictionaryOperator.ToDocumentationByMemberIdentityName(value);
         }
