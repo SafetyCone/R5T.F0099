@@ -18,7 +18,7 @@ namespace R5T.F0099.F001
         {
             var output = new Dictionary<string, string>();
 
-            var documentationFileExists = Instances.FileSystemOperator.FileExists(documentationXmlFilePath);
+            var documentationFileExists = Instances.FileSystemOperator.Exists_File(documentationXmlFilePath);
             if (documentationFileExists)
             {
                 var documentation = Instances.XmlOperator.Load_XDocument(documentationXmlFilePath);
