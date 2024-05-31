@@ -21,7 +21,7 @@ namespace R5T.F0099.F001
             var documentationFileExists = Instances.FileSystemOperator.Exists_File(documentationXmlFilePath);
             if (documentationFileExists)
             {
-                var documentation = Instances.XmlOperator.Load_XDocument(documentationXmlFilePath);
+                var documentation = Instances.XmlOperator.Load_XDocument_Synchronous(documentationXmlFilePath);
 
                 var membersNode = documentation.XPathSelectElement(Instances.XPaths.DocumentationMembersNode_FromRoot);
 
